@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gesture analyser</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <script type="text/javascript" src="components/smoothie/smoothie.js"></script>
+    <style>
+        html, body { padding: 0; margin: 0;}
+    </style>
+</head>
+<body>
+    <canvas id="chart-alpha" width=320 height=138>Sorry your device doesn't support canvas</canvas>
+    <canvas id="chart-beta" width=320 height=138>Sorry your device doesn't support canvas</canvas>
+    <canvas id="chart-gamma" width=320 height=138>Sorry your device doesn't support canvas</canvas>
+
+    <script type="text/javascript">
+        var smoothie_alpha = new SmoothieChart();
+        smoothie_alpha.streamTo(document.getElementById("chart-alpha"));
+
+        var smoothie_beta = new SmoothieChart();
+        smoothie_beta.streamTo(document.getElementById("chart-beta"));
+        
+        var smoothie_gamma = new SmoothieChart();
+        smoothie_gamma.streamTo(document.getElementById("chart-gamma"));
+
+        //smoothie.stop(); // stop instantly
+
+        var alpha = new TimeSeries();
+        var beta = new TimeSeries();
+        var gamma = new TimeSeries();
+
+        smoothie_alpha.addTimeSeries(alpha);
+        smoothie_beta.addTimeSeries(beta);
+        smoothie_gamma.addTimeSeries(gamma);
+
+        window.addEventListener('deviceorientation', function (event) {
+            alpha.append(Date.now(), event.alpha);
+            beta.append(Date.now(), event.beta);
+            gamma.append(Date.now(), event.gamma);
+        }, true);
+
+        window.addEventListener('load', function (e) {
+            window.scrollTo(0, 1);
+        }, false);
+    </script>
+</body>
+</html>
